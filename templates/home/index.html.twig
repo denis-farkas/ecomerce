@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+
+<div class = "service" > 
+    <div class = "card">
+        <div class = "card_header">
+            <img src="{{ asset('build/images/life.png' ) }}" alt = "livraison poisson vivant" />         
+        </div>
+
+        <div class = "card-body">
+            <h6 class = "card-title"> Livraison Poisson Vivant </h6>
+            <p class = "card-text"> Transport spécialisé avec système d'oxygénation pour garantir l'arrivée de vos poissons en parfaite santé </p>
+        </div>
+    </div>
+    
+    <div class = "card">
+        <div class = "card_header">
+            <img src="{{ asset('build/images/aqua.png' ) }}" alt = "expertise aquariophilie" />         
+        </div>
+
+        <div class = "card-body">
+            <h6 class = "card-title"> Expertise Aquariophilie </h6>
+            <p class = "card-text"> Conseils personnalisés par nos spécialistes pour l'entretien de votre aquarium et le bien-être de vos poissons </p>
+        </div>
+    </div> 
+
+    <div class = "card">
+        <div class = "card_header">
+            <img src="{{ asset('build/images/quality.png' ) }}" alt = "qualité premium" />         
+        </div>
+
+        <div class = "card-body">
+            <h6 class = "card-title"> Qualité Premium </h6>
+            <p class = "card-text"> Sélection rigoureuse de poissons d'eau douce et marine issus d'élevages certifiés et durables </p>
+        </div>
+    </div> 
+
+</div>
+
+{{ render(controller('App\\Controller\\SectionNewController::index')) }}
+
+{{ render(controller('App\\Controller\\SectionCommentController::index')) }}
+
+
+
+
+{% endblock %}

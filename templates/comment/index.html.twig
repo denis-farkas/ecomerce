@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commentaire{% endblock %}
+
+{% block body %}
+ <main class="form-container w-50 mx-auto my-5">
+ <div class="form-wrapper">
+    <h1 class="my-4">Partagez votre avis !</h1>
+   {{ form(form, {'attr': {'novalidate': 'novalidate'}}) }}
+   
+  </div>
+  </main>
+{% endblock %}

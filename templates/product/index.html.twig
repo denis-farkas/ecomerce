@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+<h1 class = " text-center" >Produits</h1>
+<div {{ react_component('productsFilter', {
+    products: products,
+    imagePathPrefix: '/build/images/',
+    productUrlPattern: '/product/'
+}) }}></div>
+{% endblock %}

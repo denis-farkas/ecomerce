@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+
+    <div class="container my-5">
+
+        <h1 class="text-center mt-5 mb-5">Espace membre</h1>
+        <div class = "col-md-3 mt-5">
+
+        {% include 'account/_menu.html.twig' %}
+
+        </div>
+
+            <div class = "form-container justify-content-start col-md-9">
+
+                <div class=" text-center  form-wrapper mb-5">
+
+                    <h5>Mes adresses</h5>
+
+                    <a href="{{ path('app_account_address_form') }}" class="btn btn-light">Ajouter une adresse</a>
+
+                </div>
+
+
+                {% if app.user.addresses|length == 0 %}
+
+                    <p>Vous n'avez pas encore enregistré d'adresse sur Fish & E-commerce.</p>
+
+                {% else %}
+
+                    <div class="row">
+
+                    {% for address in app.user.addresses %}
+
+                        <div class="col text-center  form-wrapper mb-5">
+
+                            <div class="">
+
+                                <strong>{{ address.firstname }} {{ address.lastname }}</strong><br/>
+
+                                {{ address.address }}<br/>
+
+                                {{ address.postal }}, {{ address.city }}<br/>
+
+                                {{ address.country }}<br/>
+
+                                <a href="{{ path('app_account_address_form', { id : address.id } ) }}" class="small">Éditer</a>
+
+                                <a href="{{ path('app_account_address_delete', { id : address.id } ) }}" class="small">Supprimer</a>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

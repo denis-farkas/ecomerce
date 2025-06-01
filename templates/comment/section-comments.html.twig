@@ -1,0 +1,44 @@
+<section class="bg-green" id="comments">
+    <h1 class="heading-2 white">Avis de nos clients</h1>
+    <div class="container justify-content-center">
+        
+            {% for commentaire in commentaires %}
+                {% if commentaire %}
+                    <div class="col-12 col-md-6 col-xl-4 m-4">
+                        <div class="testimonial-card h-100">
+                            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                            <div class="testimonial-content">
+                                <p class="testimonial-text">{{ commentaire.message }}</p>
+                                <div class="testimonial-footer d-flex align-items-center">
+                                
+                                    <div class="testimonial-author">
+                                        <div class="author-avatar">
+                                            <div class="avatar-initials">{{ (commentaire.lastname|default('A')|first|upper) }}{{ (commentaire.firstname|default('')|first|upper) }}</div>
+                                        </div>
+                                        <div class="author-info">
+                                            <h5>
+                                                {% if commentaire.lastname or commentaire.firstname %}
+                                                    {{ commentaire.lastname|default('') }} {{ commentaire.firstname|default('') }}
+                                                {% else %}
+                                                    Anonyme
+                                                {% endif %}
+                                            </h5>
+                                            <small>{{ commentaire.createdAt|date('d/m/Y') }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="testimonial-link ms-auto">
+                                        <a href="{{ path('app_commentaire_liste') }}" class="read-more">Lire plus <i class="fas fa-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <p class="text-center">Pas de commentaire récent disponible.</p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        
+    </div>
+</section>

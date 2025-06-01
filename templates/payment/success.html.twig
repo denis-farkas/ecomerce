@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center">Paiement réalisé avec succés</h1>
+   
+
+             <div class="col-sm-12 col-md-9 mx-auto">
+                <small><a href="{{ path('app_account') }}" class="btn btn-light btn-sm">Retour</a> 
+
+                <h5 class="mt-4">Ma commande n°{{ order.id }}</h5>
+                <span>Passée le : {{ order.createdAt|date('d/m/Y') }}</span><br/>
+                <span>Statut : {{ order.state }}</span><br/>
+                <br/>
+                <hr>
+
+                <div class="row my-4">
+                    <div class="col-md-6">
+                        <strong>Adresse de livraison :</strong><br/>
+                        {{ order.delivery|raw }}
+                    </div>
+                </div>
+
+                <hr>
+
+                <strong>Contenu de la commande :</strong><br/>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Illustration</th>
+                        <th scope="col">Nom du produit</th>
+                        <th scope="col">Quantité</th>
+                        <th scope="col">Total T.T.C</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in order.orderDetails %}
+                        <tr>
+                            <td>
+                                <img src="/build/images/boutique/{{ product.productIllustration }}" width="100px" alt="">
+                            </td>
+                            <td>{{ product.productName }}</td>
+                            <td>{{ product.productQuantity }}</td>
+                            <td>{{ product.productPrice}}</td>
+                            
+                            <td>{{ product.productPrice * product.productQuantity }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    
+                    </tbody>
+                </table>
+
+                <div>
+                    
+                    <strong>Total T.T.C : </strong> {{ order.totalPrice }} €
+                </div>
+
+            </div>
+
+    
+</div>
+{% endblock %}

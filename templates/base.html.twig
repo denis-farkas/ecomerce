@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        {% endblock %}
+        {% block meta %}
+        <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% endblock %}
+        
+    </head>
+    <body>
+    
+    {%  include "base/header.html.twig" %}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+            <div class="alert alert-{{ label == 'success' ? 'success' : 'warning' }} alert-dismissible fade show text-center w-50 mx-auto my-2" role="alert">
+                                    {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+            {% endfor %}
+        {% endfor %}
+
+        {% block body %}{% endblock %}
+        {%  include "base/footer.html.twig" %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        <script src=" https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>    
+        {% endblock %}
+    </body>
+</html>
+

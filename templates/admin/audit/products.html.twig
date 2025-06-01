@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Audit des Produits{% endblock %}
+
+{% block body %}
+<div class="container mx-auto my-5">
+    <h1 class="text-center">Audit des Produits</h1>
+    
+    <div class="table-responsive mx-auto my-4">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Produit ID</th>
+                    <th>Action</th>
+                    <th>Ancien Nom</th>
+                    <th>Nouveau Nom</th>
+                    <th>Ancien Prix</th>
+                    <th>Nouveau Prix</th>
+                    <th>Modifié par</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for audit in audits %}
+                <tr>
+                    <td>{{ audit.modifiedAt|date('d/m/Y H:i') }}</td>
+                    <td>{{ audit.productId }}</td>
+                    <td>
+                        <span class="badge bg-{% if audit.actionType.value == 'INSERT' %}success{% elseif audit.actionType.value == 'UPDATE' %}warning{% else %}danger{% endif %}">
+                            {{ audit.actionType.value }}
+                        </span>
+                    </td>
+                    <td>{{ audit.oldName ?? '-' }}</td>
+                    <td>{{ audit.newName ?? '-' }}</td>
+                    <td>{{ audit.oldPrice ? audit.oldPrice ~ ' €' : '-' }}</td>
+                    <td>{{ audit.newPrice ? audit.newPrice ~ ' €' : '-' }}</td>
+                    <td>{{ audit.modifiedBy }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+<main class="form-container w-50 mx-auto my-5">
+<div class="form-wrapper">
+    <h1 class="my-4">Contactez-nous</h1>
+   {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.message) }}
+    <div class="form-group" id="btn-contact">
+        <button type="submit" class="btn btn-primary">
+Envoyer</button>
+    </div>
+    {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

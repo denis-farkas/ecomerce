@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<main class="form-container w-50 mx-auto my-5">
+<div class="form-wrapper">
+    <h1 class="text-center">Choix de l'adresse de livraison</h1>
+    {{ form_start(deliverForm) }}
+    <div class="form-group">
+        {{ form_label(deliverForm.addresses) }}
+        {{ form_widget(deliverForm.addresses, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <button type="submit" class="btn btn-primary">Valider</button>
+    {{ form_end(deliverForm) }}
+</div>
+</main>
+{% endblock %}

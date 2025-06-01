@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Votre Panier{% endblock %}
+
+
+{% block body %}
+        <h1 class = " text-center ">Votre Panier</h1>
+
+    <div class="cart-page">
+
+            <div class="cart-items">
+
+                {% if cart|length > 0 %}
+
+
+                        {% for item in cart %}
+
+                            <div class="cart-item">
+
+                                <div class="item-image">
+
+                                    <img src="{{ asset('build/images/' ~ item.object.image1) }}" alt="{{ item.object.name }}">
+
+                                </div>
+
+                                <div class="item-details">
+
+
+                                    <p class="item-price">{{ item.object.price }} €</p>
+
+                                    <h6>{{ item.object.name }}</h6>
+
+                                        <form action="{{ path('decrease_quantity', {id: item.object.id}) }}" method="POST" class="d-inline">
+                                            <button type="submit" class="btn-quantity">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </form>
+
+                                        <p class="item-actions-p">Qté: {{ item.qty}}</p>
+                                        <form action="{{ path('increase_quantity', {id: item.object.id}) }}" method="POST" class="d-inline">
+                                            <button type="submit" class="btn-quantity">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ path('remove_from_cart', {id: item.object.id}) }}" method="POST">
+
+                                            <button type="submit" class="btn-remove">
+                                            Suppression
+                                            </button>
+
+                                        </form>
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+
+
+                {% else %}
+
+                    <h3 class = " mx-auto" >Votre panier est vide.</h3>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="cart-summary">
+
+                <h2>Total</h2>
+
+                <div class="cart-summary-details">
+
+                    <p class="cart-total">Sous-total <span>{{ totalPrice }} €</span></p>
+
+                    <p class="shipping-info">Livraison standard <span>4,49 €</span></p>
+
+                    <p class="cart-final-total">Total <span>{{ totalPrice + 4.49 }} €</span></p>
+
+                </div>
+
+
+                <div class="payment-options">
+
+                    <a href="{{ path('app_order') }}" class="btn btn-primary">Commander</a>
+
+
+                    <a href="{{ path('app_product') }}" class="btn btn-secondary">Continuer mes achats</a>
+
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

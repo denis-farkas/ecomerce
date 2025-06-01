@@ -1,0 +1,44 @@
+<div class = "selection">
+        <p class = "selection-texte"> Notre Selection </p>
+        <h1 class = "selection-title">  Nos nouveaux poissons </h1>
+    <div class = "selection-gallery"> 
+
+    {% for product in products %}
+
+ <div class="card mb-3">
+    <div class="card-head">
+        <div class = "badger" >  
+            <p class = " badge-text" > Nouveauté </p> 
+        </div>
+    </div>
+    <div class="card-body">
+    <img class="img-product" src="{{ asset('build/images/' ~ product.image1) }}" alt="le poisson {{ product.name }}" />
+
+    </div>
+    <div class="card-foot">
+    <p class="card-title">{{ product.name }}</p>
+    <p class="reduce">Famille: {{ product.famille }}</p>
+    <p class = "card-price">
+    {% set reduction = 0.2 %} {# 20% reduction #}
+    {% set new_price = product.price * (1 - reduction) %}
+    
+    <span class = "price-left"> {{ product.price }} euros </span>
+    <span class = "price-right"> {{ new_price|number_format(2, '.', ',') }} € </span>
+    </p>
+
+    </div>
+    <a href="{{ path('app_product_by_id', {id: product.id}) }}" class="btn-panier">
+        Voir
+    </a>
+</div>
+
+    {% endfor %}
+    </div>
+       <a href="{{ path('app_product') }}" class="btn-gallery">
+        Voir nos poissons
+    </a>
+ 
+    
+
+</div>
+

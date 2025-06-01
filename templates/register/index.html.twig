@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+<div class="container my-5">
+
+    <div class="col-md-6 offset-md-3 form-wrapper">
+
+        <h1 class="text-center">Inscription</h1>
+
+        {{ form_start(form) }}
+
+         <div class="form-group">
+
+                {{ form_label(form.lastname) }}
+
+                {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+
+            </div>
+
+             <div class="form-group">
+
+                {{ form_label(form.firstname) }}
+
+                {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+
+            </div>
+
+            <div class="form-group">
+
+                {{ form_label(form.email) }}
+
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+
+            {{ form_errors(form.email) }}
+
+            </div>
+
+            <div class="form-group">
+
+                {{ form_label(form.plainPassword.first) }}
+
+                <div class="input-group">
+
+                    {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control' }}) }}
+
+                    <div class="input-group-append">
+
+                        <span class="input-group-text" id="togglePassword">
+
+                            <i class="fa fa-eye"></i>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                {{ form_errors(form.plainPassword.first) }}
+
+            </div>
+
+            <div class="form-group">
+
+                {{ form_label(form.plainPassword.second) }}
+
+                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+
+            </div>
+            {{ form_end(form) }}
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{ parent() }}
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const togglePassword = document.querySelector('#togglePassword');
+
+            const password = document.querySelector('#register_user_plainPassword_first');
+
+
+            togglePassword.addEventListener('click', function (e) {
+
+                // Toggle the type attribute
+
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+
+                password.setAttribute('type', type);
+
+                // Toggle the eye icon
+
+                this.querySelector('i').classList.toggle('fa-eye');
+
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+
+            });
+
+        });
+
+    </script>
+
+{% endblock %}

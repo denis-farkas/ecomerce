@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="row w-75 mx-auto">
+            <div class="col-xl-4 col-md-4 col-sm-12 my-4">
+               
+                {% include 'account/_menu.html.twig' %}
+            </div>
+
+            <div class="col-xl-8 col-md-8 col-sm-12 my-4">
+                <h2 class="text-center">Modification de l'adresse email</h2>
+                {{form(modifyEmailForm)}}
+            </div>
+</div>
+{% endblock %}
