@@ -1,32 +1,192 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Produit{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
 
+<div class="container-lg my-5" style="max-width: 1200px;">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('app_product') }}">Produits</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+        </ol>
+    </nav>
 
-    <h1 class = "fiche_title my-5">Produit</h1>
-<div class="fiche mb-3">
+    <div class="product-fiche shadow-sm mx-auto" style="max-width: 900px;">
+        <div class="row g-4">
+            <!-- Section gauche: Informations produit -->
+            <div class="col-md-6">
+                <div class="product-info">
+                    <h1 class="product-title h2">{{ product.name }}</h1>
+                    
+                    {% if product.famille %}
+                        <div class="product-category mb-3">
+                            <span class="badge bg-light text-dark">{{ product.famille.name }}</span>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="product-description mb-4">
+                        <p class="text-muted">{{ product.description }}</p>
+                    </div>
+                    
+                    <!-- Prix en évidence -->
+                    <div class="price-section mb-4">
+                        <span class="current-price fs-3 fw-bold text-primary">{{ product.price|number_format(2, ',', ' ') }} €</span>
+                        <small class="price-note text-muted d-block">TTC, frais de livraison en sus</small>
+                    </div>
+                </div>
+            </div>
 
-    <div class="fiche-left col-xl-4 col-md-4 col-sm-12">
-    <h3 class="card-header">{{ product.name }}</h3>
-    <p class="card-title">{{ product.description }}</p>
-        <div class="card-footer text-muted">
-            {{ product.price }} euros
+            <!-- Section droite: Images -->
+            <div class="col-md-6">
+                <div class="product-gallery text-center">
+                    <div class="main-image mb-3">
+                        <img class="img-product-main img-fluid" 
+                             style="max-width: 350px; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);" 
+                             src="{{ asset('build/images/' ~ product.image1) }}" 
+                             alt="{{ product.name }}">
+                    </div>
+                    
+                    {% if product.image2 %}
+                        <div class="secondary-image">
+                            <img class="img-product-secondary" 
+                                 style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px; border: 2px solid #e9ecef; cursor: pointer;" 
+                                 src="{{ asset('build/images/' ~ product.image2) }}" 
+                                 alt="{{ product.name }} - Vue alternative">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-    </div>
 
-    <div class="fiche-right col-xl-4 col-md-4 col-sm-12">
-        <img class="img-product" src="{{ asset('build/images/' ~ product.image1) }}" alt="Le complément alimentaire du futur">
-
-    </div>
-
-    <form action="{{ path('add_to_cart', {id: product.id, redirect_to: app.request.uri}) }}" method="POST" class="add-to-cart-form">
-        <div class="form-group mb-2">
-            <label for="quantity">Quantité:</label>
-            <input type="number" id="quantity" name="quantity" class="form-control" min="1" value="1" required style="width: 100px; display: inline-block; margin-right: 10px;">
+        <!-- Section commande compacte -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="order-section" style="background: #f8f9fa; border-radius: 8px; padding: 25px; border: 1px solid #dee2e6;">
+                    <form action="{{ path('add_to_cart', {id: product.id, redirect_to: app.request.uri}) }}" method="POST" class="order-form">
+                        <div class="row align-items-center g-3">
+                            <!-- Indicateur de stock -->
+                            <div class="col-md-4 mt-5">
+                                {% if product.stock and product.stock.isInStock %}
+                                    <span class="badge bg-success fs-6 py-2 px-3">
+                                        <i class="fas fa-check-circle"></i> En stock ({{ product.stock.availableQuantity }})
+                                    </span>
+                                    {% if product.stock.isLowStock %}
+                                        <small class="text-warning d-block mt-1">
+                                            <i class="fas fa-exclamation-triangle"></i> Stock faible
+                                        </small>
+                                    {% endif %}
+                                {% else %}
+                                    <span class="badge bg-danger fs-6 py-2 px-3">
+                                        <i class="fas fa-times-circle"></i> Rupture de stock
+                                    </span>
+                                {% endif %}
+                            </div>
+                            
+                            {% if product.stock and product.stock.isInStock %}
+                                <!-- Sélecteur de quantité spacieux - CORRECTION: dans une colonne -->
+                                <div class="col-md-4">
+                                    <div class="quantity-selector">
+                                        <label for="quantity" class="form-label fw-semibold mb-2">Quantité :</label>
+                                        <div class="input-group">
+                                            <button type="button" class="btn btn-outline-secondary" data-action="decrease">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="number" id="quantity" name="quantity" class="form-control text-center" 
+                                                min="1" max="{{ product.stock.availableQuantity }}" value="1" required>
+                                            <button type="button" class="btn btn-outline-secondary" data-action="increase">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Bouton d'ajout -->
+                                <div class="col-md-4 mt-5">
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                                        <i class="fas fa-shopping-cart me-2"></i>
+                                        Ajouter au panier
+                                    </button>
+                                </div>
+                            {% else %}
+                                <!-- Produit indisponible -->
+                                <div class="col-md-8">
+                                    <div class="unavailable-section text-center">
+                                        <button type="button" class="btn btn-secondary btn-lg w-100" disabled>
+                                            <i class="fas fa-ban me-2"></i>
+                                            Produit indisponible
+                                        </button>
+                                        <small class="text-muted d-block mt-2">
+                                            Contactez-nous pour connaître la date de réapprovisionnement
+                                        </small>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-    </form>
+        <!-- Fin de la section commande compacte -->
     </div>
+   
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+    (function() {
+        'use strict';
+        
+        // S'assurer qu'on n'ajoute les listeners qu'une seule fois
+        if (window.quantityListenersAdded) {
+            return;
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity');
+            const decreaseBtn = document.querySelector('[data-action="decrease"]');
+            const increaseBtn = document.querySelector('[data-action="increase"]');
+            
+            if (quantityInput && decreaseBtn && increaseBtn) {
+                decreaseBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentValue = parseInt(quantityInput.value);
+                    const minValue = parseInt(quantityInput.min) || 1;
+                    if (currentValue > minValue) {
+                        quantityInput.value = currentValue - 1;
+                    }
+                });
+                
+                increaseBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const currentValue = parseInt(quantityInput.value);
+                    const maxValue = parseInt(quantityInput.max) || 999;
+                    if (currentValue < maxValue) {
+                        quantityInput.value = currentValue + 1;
+                    }
+                });
+                
+                // Validation directe de l'input
+                quantityInput.addEventListener('change', function() {
+                    const value = parseInt(this.value);
+                    const min = parseInt(this.min) || 1;
+                    const max = parseInt(this.max) || 999;
+                    
+                    if (isNaN(value) || value < min) {
+                        this.value = min;
+                    } else if (value > max) {
+                        this.value = max;
+                    }
+                });
+                
+                // Marquer que les listeners ont été ajoutés
+                window.quantityListenersAdded = true;
+            }
+        });
+    })();
+    </script>
 {% endblock %}

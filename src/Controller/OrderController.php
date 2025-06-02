@@ -92,6 +92,7 @@ class OrderController extends AbstractController
                 $orderDetail->setProductIllustration($product['object']->getImage1());
                 $orderDetail->setProductPrice($product['object']->getPrice());
                 $orderDetail->setProductQuantity($product['qty']);
+                $orderDetail->setProductId($product['object']->getId()); // Ajouter cette ligne
                 $order->addOrderDetail($orderDetail);
                 $entityManager->persist($orderDetail);
             }

@@ -29,6 +29,9 @@ class OrderDetail
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $myOrder = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $productId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +94,17 @@ class OrderDetail
     {
         $this->myOrder = $myOrder;
 
+        return $this;
+    }
+
+    public function getProductId(): ?int
+    {
+        return $this->productId;
+    }
+
+    public function setProductId(?int $productId): static
+    {
+        $this->productId = $productId;
         return $this;
     }
 }

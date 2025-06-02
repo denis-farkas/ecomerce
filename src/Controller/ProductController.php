@@ -18,7 +18,7 @@ class ProductController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-     #[Route('/products', name: 'app_product')]
+    #[Route('/products', name: 'app_product')]
     public function index(ProductRepository $productRepository): Response
     {
         $products = $productRepository->findAll();
@@ -30,10 +30,13 @@ class ProductController extends AbstractController
                 'id' => $product->getId(),
                 'name' => $product->getName(),
                 'description' => $product->getDescription(),
-                'price' => $product->getPrice(),
+                'price' => number_format($product->getPrice(), 2, '.', ''), // Format correct
                 'image1' => $product->getImage1(),
-                'createdAt' => $product->getCreatedAt(), 
-                // Add any other fields you need
+                'createdAt' => $product->getCreatedAt()->format('Y-m-d H:i:s'),
+                // Ajouter les infos de stock
+                'inStock' => $product->isInStock(),
+                'availableQuantity' => $product->getAvailableQuantity(),
+                'isLowStock' => $product->isLowStock(),
             ];
         }
         
@@ -43,13 +46,16 @@ class ProductController extends AbstractController
     }
 
     #[Route('/product/{id}', name: 'app_product_by_id')]
-    public function ficheProduit($id,EntityManagerInterface $entityManager): Response
+    public function ficheProduit($id, EntityManagerInterface $entityManager): Response
     {
-
-    $product = $entityManager->getRepository(Product::class)->find($id) ;
+        $product = $entityManager->getRepository(Product::class)->find($id);
+        
+        if (!$product) {
+            throw $this->createNotFoundException('Produit non trouvé');
+        }
 
         return $this->render('product/fiche_produit.html.twig', [
-            'product' => $product
+            'product' => $product,
         ]);
     }
 }

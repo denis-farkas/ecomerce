@@ -616,3 +616,317 @@ nav .container-fluid {
   margin-block-start: 0em;
   margin-block-end: 0em;
 }
+
+/* Styles pour la fiche produit améliorée */
+.product-page-container {
+  display: block !important; /* Override du flex global */
+  max-width: 90% !important;
+  margin: 0 auto !important;
+}
+
+.product-fiche {
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px;
+  border: 1px solid #e9ecef;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.product-info {
+  padding-right: 30px;
+}
+
+.product-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+.product-category .badge {
+  font-size: 0.9rem;
+  padding: 8px 12px;
+  border: 1px solid #dee2e6;
+}
+
+.product-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #495057;
+  margin-bottom: 30px;
+}
+
+.price-section {
+  border-top: 2px solid #f8f9fa;
+  padding-top: 20px;
+}
+
+.current-price {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #28a745;
+  display: block;
+}
+
+.price-note {
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.product-gallery {
+  text-align: center;
+}
+
+.img-product-main {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.img-product-main:hover {
+  transform: scale(1.02);
+}
+
+.img-product-secondary {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 2px solid #e9ecef;
+  cursor: pointer;
+}
+
+.order-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  padding: 30px;
+  border: 1px solid #dee2e6;
+}
+
+.product-order-line {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .product-info {
+    padding-right: 0;
+    margin-bottom: 30px;
+  }
+
+  .product-title {
+    font-size: 1.75rem;
+  }
+
+  .current-price {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-fiche {
+    padding: 25px 20px;
+  }
+
+  .product-order-line {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .order-section {
+    padding: 25px 20px;
+  }
+
+  .product-title {
+    font-size: 1.5rem;
+  }
+
+  .current-price {
+    font-size: 1.8rem;
+  }
+}
+
+/* Breadcrumb */
+.breadcrumb-container {
+  width: 100%;
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+.breadcrumb {
+  background: transparent;
+  padding: 0.75rem 0;
+  margin: 0;
+  border-radius: 0;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "›";
+  color: #6c757d;
+  margin: 0 0.5rem;
+}
+
+.breadcrumb-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+}
+
+/* Uniformisation des éléments de la section compacte */
+
+/* Badge "En stock" */
+.order-section .badge {
+  height: 60px;
+  width: 180px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #28a745; /* Couleur success */
+  color: white;
+  border: 2px solid #28a745;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur du sélecteur de quantité */
+.order-section .quantity-selector {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-section .quantity-selector .form-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+  margin: 0; /* Supprime le margin-bottom qui descendait l'input */
+  line-height: 1; /* Assure un alignement parfait */
+  text-align: center;
+}
+
+/* Conteneur du sélecteur de quantité */
+.order-section .quantity-selector .input-group {
+  height: 60px; /* Hauteur uniforme pour tout le conteneur */
+  width: 180px;
+  border: 2px solid #6c757d;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  display: flex;
+  align-items: stretch; /* Étire les enfants pour qu'ils occupent toute la hauteur */
+  justify-content: space-between;
+}
+
+.order-section .btn-outline-secondary {
+  flex: 0 0 50px; /* Largeur fixe */
+  height: 60px; /* Hauteur fixe */
+  display: flex;
+  align-items: center; /* Centre verticalement l'icône */
+  justify-content: center; /* Centre horizontalement l'icône */
+  background-color: #6c757d; /* Couleur gris */
+  color: white;
+  font-size: 1rem; /* Taille de l'icône */
+  font-weight: 600;
+  border: none; /* Supprime les bordures par défaut */
+  padding: 0; /* Supprime les marges internes */
+  line-height: 1; /* Supprime tout décalage vertical lié au line-height */
+  box-sizing: border-box; /* Assure que la hauteur inclut les bordures */
+  transition: all 0.3s ease;
+}
+
+.order-section .btn-outline-secondary:hover {
+  background-color: #545b62;
+  transform: none; /* Supprime tout effet de transformation */
+}
+
+/* Surcharge des styles Bootstrap */
+.input-group .btn {
+  padding: 0 !important; /* Supprime le padding imposé par Bootstrap */
+  height: 60px !important; /* Force la hauteur à 60px */
+  line-height: 1 !important; /* Supprime tout décalage vertical */
+  box-sizing: border-box !important; /* Assure que la hauteur inclut les bordures */
+}
+
+.order-section .quantity-selector .input-group > .form-control {
+  flex: 1 0 auto !important; /* Remplace le comportement par défaut de Bootstrap */
+  width: auto !important; /* Supprime la largeur forcée */
+  min-width: 0 !important; /* Supprime la contrainte de largeur minimale */
+  height: 100% !important; /* Assure que l'input occupe toute la hauteur du conteneur */
+  display: flex !important; /* Transforme l'input en conteneur flex */
+  align-items: center !important; /* Centre verticalement le texte */
+  justify-content: center !important; /* Centre horizontalement le texte */
+  padding: 0 !important; /* Supprime les marges internes */
+  border: none !important; /* Supprime les bordures par défaut */
+  text-align: center !important; /* Centre le texte horizontalement */
+  font-size: 1rem !important; /* Taille de police uniforme */
+  font-weight: 600 !important; /* Poids de police uniforme */
+  background: white !important; /* Couleur de fond */
+  color: #495057 !important; /* Couleur du texte */
+  outline: none !important; /* Supprime les contours */
+  border-left: 1px solid #6c757d !important; /* Bordure gauche */
+  border-right: 1px solid #6c757d !important; /* Bordure droite */
+}
+
+/* Bouton "Ajouter au panier" */
+.order-section .btn-primary {
+  height: 60px;
+  width: 180px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background-color: #007bff; /* Couleur primary */
+  color: white;
+  border: 2px solid #007bff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.order-section .btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+}
+
+/* Supprimer les flèches du input number */
+.order-section .form-control::-webkit-outer-spin-button,
+.order-section .form-control::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.order-section .form-control {
+  -moz-appearance: textfield;
+}
+
+/* Responsive ajustements */
+@media (max-width: 768px) {
+  .badge,
+  .btn-primary,
+  .quantity-selector .input-group {
+    width: 100%;
+  }
+}

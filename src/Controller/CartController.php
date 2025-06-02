@@ -23,42 +23,33 @@ class CartController extends AbstractController
 
 {
 
+    
     #[Route('/add-to-cart/{id}', name: 'add_to_cart', methods: ['POST'])]
-
-    public function addToCart($id, Request $request, Cart $cart, EntityManagerInterface $entityManager ): Response
-
+    public function addToCart($id, Request $request, Cart $cart, EntityManagerInterface $entityManager): Response
     {
-
-        // Récupérer le produit à partir de son ID
-
         $product = $entityManager->getRepository(Product::class)->find($id);
 
-
         if (!$product) {
-
             throw $this->createNotFoundException('Produit non trouvé.');
-
         }
 
-        // Récupérer la quantité du formulaire
         $quantity = (int)$request->request->get('quantity', 1);
 
-        // Ajouter le produit au panier
+        // Vérifier la disponibilité du stock
+        if (!$product->isInStock() || $product->getAvailableQuantity() < $quantity) {
+            $this->addFlash('error', sprintf(
+                'Stock insuffisant pour %s. Disponible : %d',
+                $product->getName(),
+                $product->getAvailableQuantity()
+            ));
+            return $this->redirectToRoute('app_product_by_id', ['id' => $id]);
+        }
 
         $cart->add($product, $quantity);
-
-
         $this->addFlash('success', 'Produit ajouté au panier.');
 
-       
-
-        // Rediriger vers la page boutique
-
         return $this->redirectToRoute('app_product');
-
     }
-
-
 
 
     #[Route('/cart', name: 'cart')]
