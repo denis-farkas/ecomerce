@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Controller\Admin;
 
 use App\Entity\Comment;
@@ -20,8 +21,6 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-       
-
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
         // 1.1) If you have enabled the "pretty URLs" feature:
@@ -54,8 +53,12 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-list', User::class);
         yield MenuItem::linkToCrud('Produits', 'fas fa-list', Product::class);
-        yield MenuItem::linkToCrud('Familles', 'fas fa-list', Famille::class);
-        yield MenuItem::linkToCrud('Contacts', 'fas fa-list', Contact::class);
         yield MenuItem::linkToCrud('Commentaires', 'fas fa-list', Comment::class);
+        yield MenuItem::linkToCrud('Contacts', 'fas fa-list', Contact::class);
+        yield MenuItem::linkToCrud('Familles', 'fas fa-list', Famille::class);
+        
+        // Nouveau menu pour les logs du panier
+        yield MenuItem::section('Logs & Monitoring');
+        yield MenuItem::linkToRoute('Logs Panier', 'fas fa-shopping-cart', 'admin_cart_logs');
     }
 }

@@ -1,0 +1,184 @@
+{# filepath: c:\laragon\www\ecomerce\templates\admin\cart_logs\index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Logs du Panier{% endblock %}
+
+{% block body %}
+<div class="d-flex flex-column mt-4" id="admin-cart-logs">
+    <!-- En-tête -->
+    <div class="col-lg-12 col-md-12 col-sm-12 row mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>
+                <i class="fas fa-shopping-cart"></i> Logs du Panier
+            </h1>
+            <div>
+                <a href="{{ path('admin') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Retour Admin
+                </a>
+                <form method="post" action="{{ path('admin_cart_logs_clear') }}" class="d-inline" 
+                        onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer tous les logs ?')">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Vider les logs
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-12 col-md-12 col-sm-12 d-flex justify-content-between flex-wrap mb-4">
+        <div class="d-flex flex-column col-lg-2 col-md-2 col-sm-12 mb-4 me-2">      
+                <!-- Statistiques -->
+            <div class="card-log mb-4">
+                <div class="card-log-header text-center">
+                    <h5><i class="fas fa-chart-bar"></i> Statistiques</h5>
+                </div>
+                <div class="card-log-body">
+                    {% for level, count in statistics %}
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <span class="badge {{ level == 'info' ? 'badge-primary' : (level == 'warning' ? 'badge-warning' : 'badge-danger') }}">
+                                {{ level|upper }}
+                            </span>
+                            <strong>{{ count }}</strong>
+                        </div>
+                        <div class="mt-1 text-center">
+                            {% set level = level|lower %}
+                            <a href="{{ path('admin_cart_logs', {level: level}) }}" class="btn btn-sm btn-outline-primary btn-block">
+                                Voir les logs
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Filtres -->
+            <div class="card-log">
+                <div class="card-log-header text-center">
+                    <h5><i class="fas fa-filter"></i> Filtres</h5>
+                </div>
+                <div class="card-log-body">
+                    <div class="d-grid gap-2">
+                        <a href="{{ path('admin_cart_logs') }}" 
+                            class="btn btn-outline-primary {{ current_filter.level is empty and current_filter.user is empty and current_filter.product is empty ? 'active' : '' }}">
+                            <i class="fas fa-list"></i> Tous les logs
+                        </a>
+                        <a href="{{ path('admin_cart_logs', {level: 'info'}) }}" 
+                            class="btn btn-outline-info {{ current_filter.level == 'info' ? 'active' : '' }}">
+                            <i class="fas fa-info-circle"></i> Info
+                        </a>
+                        <a href="{{ path('admin_cart_logs', {level: 'warning'}) }}" 
+                            class="btn btn-outline-warning {{ current_filter.level == 'warning' ? 'active' : '' }}">
+                            <i class="fas fa-exclamation-triangle"></i> Warnings
+                        </a>
+                        <a href="{{ path('admin_cart_logs', {level: 'error'}) }}" 
+                            class="btn btn-outline-danger {{ current_filter.level == 'error' ? 'active' : '' }}">
+                            <i class="fas fa-times-circle"></i> Erreurs
+                        </a>
+                    </div>
+                </div>
+            </div> 
+        </div>
+        <div class="col-lg-9 col-md-9 col-sm-12">
+
+            <!-- Colonne droite : Liste des logs -->
+                <div class="card-log">
+                    <div class="card-log-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-2">
+                            <i class="fas fa-list"></i> Logs du Panier
+                        </h5>
+                        <span class="badge badge-info">{{ logs|length }} entrées</span>
+                    </div>
+                    <div class="card-log-body p-0">
+                        {% if logs is empty %}
+                            <div class="alert alert-info m-3">
+                                <i class="fas fa-info-circle"></i> Aucun log trouvé.
+                            </div>
+                        {% else %}
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover mb-0">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th style="width: 140px;">Date/Heure</th>
+                                            <th style="width: 80px;">Niveau</th>
+                                            <th style="width: 80px;">Action</th>
+                                            <th>Message</th>
+                                            <th style="width: 120px;">Utilisateur</th>
+                                            <th style="width: 80px;">Produit</th>
+                                            <th style="width: 80px;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for log in logs %}
+                                        <tr>
+                                            <td>
+                                                <small class="text-muted">{{ log.createdAt|date('d/m/Y') }}</small><br>
+                                                <small class="text-muted">{{ log.createdAt|date('H:i:s') }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge bg-primary {{ log.levelBadgeClass }}">
+                                                    {{ log.level|upper }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {% if log.action %}
+                                                    <span class="badge bg-success">{{ log.action }}</span>
+                                                {% else %}
+                                                    <span class="text-muted">-</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <small>
+                                                    {{ log.message|slice(0, 60) }}
+                                                    {% if log.message|length > 60 %}
+                                                        <span class="text-muted">...</span>
+                                                    {% endif %}
+                                                </small>
+                                            </td>
+                                            <td>
+                                                {% if log.userIdentifier %}
+                                                    <small>
+                                                        <a href="{{ path('admin_cart_logs', {user: log.userIdentifier}) }}" class="text-decoration-none">
+                                                            <i class="fas fa-user"></i> {{ log.userIdentifier|slice(0, 15) }}
+                                                        </a>
+                                                    </small>
+                                                {% else %}
+                                                    <small class="text-muted">
+                                                        <i class="fas fa-user-slash"></i> Anonyme
+                                                    </small>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {% if log.productId %}
+                                                    <a href="{{ path('admin_cart_logs', {product: log.productId}) }}" class="text-decoration-none">
+                                                        <small><i class="fas fa-box"></i> #{{ log.productId }}</small>
+                                                    </a>
+                                                {% else %}
+                                                    <span class="text-muted">-</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="{{ path('admin_cart_log_detail', {id: log.id}) }}" 
+                                                class="btn btn-sm btn-outline-primary" title="Voir les détails">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Pagination si nécessaire -->
+                            {% if logs|length >= 200 %}
+                            <div class="card-log-footer text-muted text-center">
+                                <small><i class="fas fa-info-circle"></i> Affichage limité aux 200 dernières entrées</small>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+{% endblock %}
