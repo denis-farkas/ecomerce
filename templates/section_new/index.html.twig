@@ -19,11 +19,10 @@
     <p class="card-title">{{ product.name }}</p>
     <p class="reduce">Famille: {{ product.famille }}</p>
     <p class = "card-price">
-    {% set reduction = 0.2 %} {# 20% reduction #}
-    {% set new_price = product.price * (1 - reduction) %}
+   
     
-    <span class = "price-left"> {{ product.price }} euros </span>
-    <span class = "price-right"> {{ new_price|number_format(2, '.', ',') }} € </span>
+    <span class = "price-right"> {{ product.price }} euros </span>
+    
     </p>
 
     </div>
